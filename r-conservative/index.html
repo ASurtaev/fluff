@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>r/Conservative hourly activity (MSK)</title>
+<style>
+:root{--bg:#fcfcfb;--fg:#0b0b0b;--muted:#52514e;--grid:#e1e0d9}
+@media (prefers-color-scheme:dark){:root{--bg:#1a1a19;--fg:#f0efec;--muted:#c3c2b7;--grid:#2c2c2a}}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1100px;margin:0 auto;padding:24px 16px}
+h1{font-size:20px;font-weight:600;margin:0 0 4px} p{margin:0 0 12px;color:var(--muted);font-size:13px}
+.lg{display:flex;flex-wrap:wrap;gap:16px;font-size:12px;color:var(--muted);margin:12px 0 8px} .lg span{display:flex;align-items:center;gap:5px} .lg i{display:inline-block}
+.wrap{position:relative;height:420px}
+</style></head><body><main>
+<h1>r/Conservative — comments per hour, Moscow time (UTC+3)</h1>
+<p>Sep 30 – Oct 14, 2026. Data: Arctic Shift archive (counts at time of posting, incl. later-removed content). Oct 3–5 may be under-collected.</p>
+<div class="lg"><span><i style="width:14px;height:2px;background:#2a78d6"></i>Comments per hour</span>
+<span><i style="width:14px;border-top:2px dashed #898781"></i>Typical for that hour (2-week avg)</span>
+<span><i style="width:10px;height:10px;border-radius:2px;background:rgba(237,161,0,.35)"></i>Night 00:00–06:00 MSK</span>
+<span><i style="width:9px;height:9px;border-radius:50%;background:#e34948"></i>Oct 11, 04:00 MSK</span></div>
+<div class="wrap"><canvas id="c" role="img" aria-label="Hourly comments on r/Conservative in Moscow time, Sep 30 to Oct 14 2026"></canvas></div>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const v=[138, 125, 118, 105, 71, 75, 44, 28, 32, 43, 28, 28, 48, 77, 167, 135, 130, 159, 180, 112, 139, 125, 121, 88, 117, 72, 93, 85, 79, 56, 35, 20, 23, 24, 23, 22, 48, 85, 145, 144, 129, 108, 126, 100, 131, 109, 72, 77, 72, 88, 64, 96, 58, 36, 32, 34, 9, 11, 44, 33, 33, 49, 114, 102, 105, 68, 100, 96, 48, 42, 87, 78, 56, 51, 29, 42, 44, 19, 21, 20, 19, 6, 23, 13, 14, 38, 40, 52, 52, 48, 54, 92, 104, 45, 46, 52, 65, 47, 44, 45, 54, 22, 24, 15, 11, 11, 7, 20, 26, 19, 53, 60, 57, 59, 47, 62, 83, 84, 46, 30, 40, 53, 38, 44, 36, 24, 24, 8, 11, 11, 11, 20, 37, 44, 59, 50, 58, 40, 43, 48, 40, 30, 34, 34, 54, 64, 86, 34, 39, 32, 27, 17, 10, 21, 24, 39, 58, 70, 194, 82, 276, 193, 183, 144, 119, 128, 155, 116, 118, 175, 144, 83, 87, 73, 49, 52, 28, 19, 23, 34, 55, 81, 113, 121, 84, 114, 77, 74, 140, 132, 125, 93, 83, 82, 96, 92, 59, 55, 78, 32, 21, 18, 17, 31, 51, 60, 86, 79, 98, 74, 107, 51, 80, 101, 147, 172, 193, 172, 122, 69, 86, 67, 57, 41, 19, 32, 32, 51, 52, 68, 93, 71, 69, 79, 157, 108, 134, 275, 260, 234, 185, 116, 115, 132, 116, 108, 88, 60, 60, 61, 69, 65, 58, 105, 92, 132, 100, 74, 129, 103, 86, 81, 75, 89, 94, 123, 140, 104, 131, 96, 70, 41, 40, 39, 27, 51, 71, 94, 134, 145, 139, 105, 120, 108, 99, 121, 101, 100, 96, 93, 136, 71, 81, 79, 53, 40, 74, 22, 43, 32, 40, 111, 147, 173, 186, 193, 198, 229, 210, 201, 138, 128, 116, 135, 116, 87, 66, 55, 66, 32, 42, 31, 24, 38, 52, 127, 131, 124, 188, 145, 111, 106, 120, 113, 89, 89, 101, 88, 105, 62, 47];
+const typ=[102, 100, 96, 78, 72, 57, 48, 31, 28, 25, 28, 34, 46, 73, 112, 105, 119, 104, 117, 102, 110, 113, 107, 99];
+const mon=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const t0=Date.UTC(2026,8,30),lab=[],full=[],t=[];
+for(let i=0;i<v.length;i++){const d=new Date(t0+i*3600e3),h=i%24,ds=mon[d.getUTCMonth()]+' '+d.getUTCDate();lab.push(h===0?ds:'');full.push(ds+', '+String(h).padStart(2,'0')+':00 MSK');t.push(typ[h]);}
+const dark=matchMedia('(prefers-color-scheme: dark)').matches,grid=dark?'#2c2c2a':'#e1e0d9',muted='#898781';
+const bands=[[192,198,'Night into Oct 8'],[216,222,'Night into Oct 9']];
+const shade={id:'shade',beforeDatasetsDraw(ch){const {ctx,chartArea:a,scales:{x}}=ch;ctx.save();bands.forEach(([s,e,l])=>{const x1=x.getPixelForValue(s),x2=x.getPixelForValue(e);ctx.fillStyle='rgba(237,161,0,0.25)';ctx.fillRect(x1,a.top,x2-x1,a.bottom-a.top);ctx.fillStyle=dark?'#c3c2b7':'#52514e';ctx.font='11px sans-serif';ctx.textAlign='center';ctx.fillText(l,(x1+x2)/2,a.top+12);});ctx.restore();}};
+new Chart(document.getElementById('c'),{type:'line',data:{labels:lab,datasets:[
+{data:v,borderColor:'#2a78d6',borderWidth:1.5,pointRadius:v.map((_,i)=>i===268?6:0),pointBackgroundColor:'#e34948',pointBorderColor:dark?'#1a1a19':'#fcfcfb',pointBorderWidth:2,tension:0.15,label:'Comments'},
+{data:t,borderColor:muted,borderWidth:1.2,borderDash:[5,4],pointRadius:0,tension:0.2,label:'Typical'}]},
+options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+plugins:{legend:{display:false},tooltip:{callbacks:{title:(it)=>full[it[0].dataIndex]}}},
+scales:{x:{grid:{display:false},ticks:{color:muted,autoSkip:false,maxRotation:0,callback:(val,i)=>(lab[i]&&(i/24)%2===0)?lab[i]:''}},y:{beginAtZero:true,grid:{color:grid},ticks:{color:muted}}}},plugins:[shade]});
+</script></body></html>
